@@ -1,6 +1,9 @@
 import "dotenv/config";
 import express from "express";
 import path from "node:path";
+import { gamesRouter } from "./routes/games.js";
+import { genresRouter } from "./routes/genres.js";
+import { platformsRouter } from "./routes/platforms.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +18,12 @@ app.use(express.static(path.join(import.meta.dirname, "..", "public")));
 app.get("/", (req, res) => {
   res.send("Test");
 });
+
+app.use("/games", gamesRouter);
+
+app.use("/genres", genresRouter);
+
+app.use("/platforms", platformsRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
