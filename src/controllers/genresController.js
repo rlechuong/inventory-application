@@ -1,5 +1,12 @@
-const listGenres = (req, res) => {
-  res.send("List all genres.");
+import { getAllGenres, getGenreById } from "../db/queries.js";
+
+const listGenres = async (req, res, next) => {
+  try {
+    const genres = await getAllGenres();
+    res.render("genres", { genres });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const newGenre = (req, res) => {
