@@ -1,4 +1,4 @@
-import { getAllGenres, getGenreById } from "../db/queries.js";
+import { getAllGenres, getGenreById, getGamesByGenre } from "../db/queries.js";
 
 const listGenres = async (req, res, next) => {
   try {
@@ -17,8 +17,15 @@ const createGenre = (req, res) => {
   res.send("Submit new genre form.");
 };
 
-const getGenre = (req, res) => {
-  res.send("Show a genre.");
+const getGenre = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const genre = await getGenreById(id);
+    const games = await getGamesByGenre(id);
+    res.render("genre", { genre, games });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const editGenre = (req, res) => {

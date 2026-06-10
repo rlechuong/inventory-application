@@ -1,0 +1,61 @@
+<%- include("./partials/header") %>
+
+<h1><%= game.title %></h1>
+
+<div>
+  <% if (game.cover_image_url) { %>
+    <img src="<%= game.cover_image_url %>" alt="Cover Image For <%= game.title %>"/>
+  <% } else { %>
+    <p>No image available.</p>
+  <% } %>
+</div>
+
+<h3>Developer</h3>
+<p><%= game.developer %></p>
+
+<h3>Publisher</h3>
+<p><%= game.publisher %></p>
+
+<h3>Release Date</h3>
+<% if (game.release_date) { %>
+  <p><%= game.release_date %></p>
+<% } else { %>
+  <p>No release date available.</p>
+<% } %>
+
+<h3>Price</h3>
+<p><%= game.price %></p>
+
+<h3>Stock</h3>
+<p><%= game.stock %></p>
+
+<h3>Genres</h3>
+<% if (genres.length === 0) { %>
+  <p>No genres for this game.</p>
+<% } else { %>
+  <ul>
+    <% genres.forEach(genre => { %>
+      <li><%= genre.name %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<h3>Platforms</h3>
+<% if (platforms.length === 0) { %>
+  <p>No platforms for this game.</p>
+<% } else { %>
+  <ul>
+    <% platforms.forEach(platform => { %>
+      <li><%= platform.name %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<h3>Description</h3>
+<% if (game.description) { %>
+  <p><%= game.description %></p>
+<% } else { %>
+  <p>No description available.</p>
+<% } %>
+
+<%- include("./partials/footer") %>

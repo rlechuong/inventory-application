@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Genres</title>
-  </head>
-  <body>
-    <h1>Genres</h1>
+<%- include("./partials/header") %>
 
-    <ul>
-      <% genres.forEach(genre => { %>
-          <li><%= genre.name %></li>
-      <% }) %>
-    </ul>
-  </body>
-</html>
+<h1>Genres</h1>
+
+<% if (genres.length === 0) { %>
+  <p>No genres found.</p>
+<% } else { %>
+  <ul>
+    <% genres.forEach(genre => { %>
+      <li><%= genre.name %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<%- include("./partials/footer") %>

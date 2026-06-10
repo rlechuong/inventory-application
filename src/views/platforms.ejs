@@ -1,0 +1,15 @@
+<%- include("./partials/header") %>
+
+<h1>Platforms</h1>
+
+<% if (platforms.length === 0) { %>
+  <p>No platforms found.</p>
+<% } else { %>
+  <ul>
+    <% platforms.forEach(platform => { %>
+      <li><%= platform.name %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<%- include("./partials/footer") %>

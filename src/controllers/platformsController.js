@@ -1,5 +1,12 @@
-const listPlatforms = (req, res) => {
-  res.send("List all platforms.");
+import { getAllPlatforms, getPlatformById, getGamesByPlatform } from "../db/queries.js";
+
+const listPlatforms = async (req, res, next) => {
+  try {
+    const platforms = await getAllPlatforms();
+    res.render("platforms", { platforms });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const newPlatform = (req, res) => {
@@ -10,8 +17,15 @@ const createPlatform = (req, res) => {
   res.send("Submit new platform form.");
 };
 
-const getPlatform = (req, res) => {
-  res.send("Show a platform.");
+const getPlatform = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const platform = await getPlatformById(id);
+    const games = await getGamesByPlatform(id);
+    res.render("platform", { platform, games });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const editPlatform = (req, res) => {

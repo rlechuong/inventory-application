@@ -1,0 +1,15 @@
+<%- include("./partials/header") %>
+
+<h1><%= platform.name %> Games</h1>
+
+<% if (games.length === 0) { %>
+  <p>No games in this platform.</p>
+<% } else { %>
+  <ul>
+    <% games.forEach(game => { %>
+      <li><%= game.title %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<%- include("./partials/footer") %>
