@@ -1,4 +1,10 @@
-import { getAllPlatforms, getPlatformById, getGamesByPlatform } from "../db/queries.js";
+import { validationResult, matchedData } from "express-validator";
+import {
+  getAllPlatforms,
+  getPlatformById,
+  getGamesByPlatform,
+  createPlatformQuery,
+} from "../db/queries.js";
 
 const listPlatforms = async (req, res, next) => {
   try {
@@ -10,11 +16,28 @@ const listPlatforms = async (req, res, next) => {
 };
 
 const newPlatform = (req, res) => {
-  res.send("Show new platform form.");
+  res.render("platformForm", { errors: [], value: "" });
 };
 
-const createPlatform = (req, res) => {
-  res.send("Submit new platform form.");
+const createPlatform = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render("platformForm", { errors: errors.array(), value: req.body.name });
+  }
+
+  const { name } = matchedData(req);
+  try {
+    await createPlatformQuery(name);
+    res.redirect("/platforms");
+  } catch (err) {
+    if (err.code === "23505") {
+      return res.status(400).render("platformForm", {
+        errors: [{ msg: "A platform with that name already exists." }],
+        value: name,
+      });
+    }
+    next(err);
+  }
 };
 
 const getPlatform = async (req, res, next) => {

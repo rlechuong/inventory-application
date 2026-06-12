@@ -1,0 +1,24 @@
+<%- include("./partials/header") %>
+
+<h1>New Platform</h1>
+
+<form method="POST" action="/platforms">
+
+  <% if (errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <label for="name">Name </label>
+  <input type="text" id="name" name="name" value="<%= value || '' %>" required />
+  
+  <button type="submit">Create Platform</button>
+
+  <a href="/platforms">Back to Platforms</a>
+
+</form>
+
+<%- include("./partials/footer") %>

@@ -52,6 +52,10 @@ const getGamesByPlatform = async (id) => {
   return rows;
 };
 
+const createPlatformQuery = async (name) => {
+  await pool.query("INSERT INTO platforms (name) VALUES ($1)", [name]);
+};
+
 // Games
 
 const getAllGames = async () => {
@@ -90,6 +94,42 @@ const getPlatformsByGame = async (id) => {
   return rows;
 };
 
+const createGameQuery = async (gameData) => {
+  const { rows } = await pool.query(
+    `
+    INSERT INTO games (title, developer, publisher, release_date, price, stock, cover_image_url, description)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    RETURN id`,
+    [
+      gameData.title,
+      gameData.developer,
+      gameData.publisher,
+      gameData.release_date,
+      gameData.price,
+      gameData.stock,
+      gameData.cover_image_url,
+      gameData.description,
+    ],
+  );
+  return rows[0].id;
+};
+
+// Join Tables
+
+const addGameGenre = async (gameId, genreId) => {
+  await pool.query("INSERT INTO game_genres (game_id, genre_id) VALUES ($1, $2)", [
+    gameId,
+    genreId,
+  ]);
+};
+
+const addGamePlatform = async (gameId, platformId) => {
+  await pool.query("INSERT INTO game_platforms (game_id, platform_id) VALUES ($1, $2)", [
+    gameId,
+    platformId,
+  ]);
+};
+
 export {
   getAllGenres,
   getGenreById,
@@ -98,8 +138,12 @@ export {
   getAllPlatforms,
   getPlatformById,
   getGamesByPlatform,
+  createPlatformQuery,
   getAllGames,
   getGameById,
   getGenresByGame,
   getPlatformsByGame,
+  createGameQuery,
+  addGameGenre,
+  addGamePlatform,
 };

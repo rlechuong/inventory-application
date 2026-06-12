@@ -25,6 +25,12 @@ const createGenre = async (req, res, next) => {
     await createGenreQuery(name);
     res.redirect("/genres");
   } catch (err) {
+    if (err.code === "23505") {
+      return res.status(400).render("genreForm", {
+        errors: [{ msg: "A genre with that name already exists." }],
+        value: name,
+      });
+    }
     next(err);
   }
 };
