@@ -1,5 +1,7 @@
 import pool from "./pool.js";
 
+// Genres
+
 const getAllGenres = async () => {
   const { rows } = await pool.query("SELECT * FROM genres ORDER BY name");
   return rows;
@@ -22,6 +24,12 @@ const getGamesByGenre = async (id) => {
   return rows;
 };
 
+const createGenreQuery = async (name) => {
+  await pool.query("INSERT INTO genres (name) VALUES ($1)", [name]);
+};
+
+// Platforms
+
 const getAllPlatforms = async () => {
   const { rows } = await pool.query("SELECT * FROM platforms ORDER BY name");
   return rows;
@@ -43,6 +51,8 @@ const getGamesByPlatform = async (id) => {
   );
   return rows;
 };
+
+// Games
 
 const getAllGames = async () => {
   const { rows } = await pool.query("SELECT * FROM games ORDER BY title");
@@ -84,6 +94,7 @@ export {
   getAllGenres,
   getGenreById,
   getGamesByGenre,
+  createGenreQuery,
   getAllPlatforms,
   getPlatformById,
   getGamesByPlatform,

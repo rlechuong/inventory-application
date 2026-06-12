@@ -1,4 +1,5 @@
-import { getAllGenres, getGenreById, getGamesByGenre } from "../db/queries.js";
+import { validationResult, matchedData } from "express-validator";
+import { getAllGenres, getGenreById, getGamesByGenre, createGenreQuery } from "../db/queries.js";
 
 const listGenres = async (req, res, next) => {
   try {
@@ -10,11 +11,22 @@ const listGenres = async (req, res, next) => {
 };
 
 const newGenre = (req, res) => {
-  res.send("Show new genre form.");
+  res.render("genreForm", { errors: [], value: "" });
 };
 
-const createGenre = (req, res) => {
-  res.send("Submit new genre form.");
+const createGenre = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render("genreForm", { errors: errors.array(), value: req.body.name });
+  }
+
+  const { name } = matchedData(req);
+  try {
+    await createGenreQuery(name);
+    res.redirect("/genres");
+  } catch (err) {
+    next(err);
+  }
 };
 
 const getGenre = async (req, res, next) => {

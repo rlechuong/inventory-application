@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { body } from "express-validator";
 import {
   listGenres,
   newGenre,
@@ -11,11 +12,20 @@ import {
 
 const genresRouter = Router();
 
+const validateGenre = [
+  body("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Name is required.")
+    .isLength({ min: 2, max: 255 })
+    .withMessage("Name must be between 2 and 255 characters."),
+];
+
 genresRouter.get("/", listGenres);
 
 genresRouter.get("/new", newGenre);
 
-genresRouter.post("/", createGenre);
+genresRouter.post("/", validateGenre, createGenre);
 
 genresRouter.get("/:id", getGenre);
 
