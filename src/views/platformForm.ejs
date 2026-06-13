@@ -1,4 +1,4 @@
-<%- include("./partials/header") %>
+<%- include("./partials/header.ejs") %>
 
 <h1>New Platform</h1>
 
@@ -16,9 +16,8 @@
   <input type="text" id="name" name="name" value="<%= value || '' %>" required />
   
   <button type="submit">Create Platform</button>
-
   <a href="/platforms">Back to Platforms</a>
 
 </form>
 
-<%- include("./partials/footer") %>
+<%- include("./partials/footer.ejs") %>

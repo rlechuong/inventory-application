@@ -1,0 +1,69 @@
+<%- include("./partials/header.ejs") %>
+
+<h1>New Game</h1>
+
+<form method="POST" action="/games">
+
+  <% if (errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <label for="title">Title</label>
+  <input type="text" id="title" name="title" value="<%= values.title || '' %>" required />
+
+  <label for="developer">Developer</label>
+  <input type="text" id="developer" name="developer" value="<%= values.developer || '' %>" required />
+
+  <label for="publisher">Publisher</label>
+  <input type="text" id="publisher" name="publisher" value="<%= values.publisher || '' %>" required />
+
+  <label for="release_date">Date</label>
+  <input type="date" id="release_date" name="release_date" value="<%= values.release_date || '' %>" />
+
+  <label for="price">Price</label>
+  <input type="number" id="price" name="price" step="0.01" min="0" value="<%= values.price || '' %>" required />
+
+  <label for="stock">Stock</label>
+  <input type="number" id="stock" name="stock" step="1" min="0" value="<%= values.stock || '' %>" required />
+
+  <label for="cover_image_url">Cover Image URL</label>
+  <input type="text" id="cover_image_url" name="cover_image_url" value="<%= values.cover_image_url || '' %>" />
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description"><%= values.description || '' %></textarea>
+
+  <fieldset>
+    <legend>Genres</legend>
+    <% genres.forEach(genre => { %>
+      <input type="checkbox"
+             name="genres"
+             id="genre-<%= genre.id %>"
+             value="<%= genre.id %>"
+             <%= values.genres && values.genres.includes(String(genre.id)) ? 'checked' : '' %> />
+      <label for="genre-<%= genre.id %>"><%= genre.name %></label>
+    <% }) %>
+  </fieldset>
+
+  <fieldset>
+    <legend>Platforms</legend>
+    <% platforms.forEach(platform => { %>
+      <input type="checkbox"
+             name="platforms"
+             id="platform-<%= platform.id %>"
+             value="<%= platform.id %>"
+             <%= values.platforms && values.platforms.includes(String(platform.id)) ? 'checked' : '' %> />
+      <label for="platform-<%= platform.id %>"><%= platform.name %></label>
+    <% }) %>
+  </fieldset>
+
+  <button type="submit">Create Game</button>
+  <a href="/games">Back To Games</a>
+
+</form>
+
+
+<%- include("./partials/footer.ejs") %>

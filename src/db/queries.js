@@ -99,7 +99,7 @@ const createGameQuery = async (gameData) => {
     `
     INSERT INTO games (title, developer, publisher, release_date, price, stock, cover_image_url, description)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-    RETURN id`,
+    RETURNING id`,
     [
       gameData.title,
       gameData.developer,
