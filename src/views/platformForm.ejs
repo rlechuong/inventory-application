@@ -1,8 +1,8 @@
 <%- include("./partials/header.ejs") %>
 
-<h1>New Platform</h1>
+<h1><%= heading %></h1>
 
-<form method="POST" action="/platforms">
+<form method="POST" action="<%= action %>">
 
   <% if (errors.length > 0) { %>
     <ul>
@@ -15,7 +15,7 @@
   <label for="name">Name </label>
   <input type="text" id="name" name="name" value="<%= value || '' %>" required />
   
-  <button type="submit">Create Platform</button>
+  <button type="submit"><%= buttonText %></button>
   <a href="/platforms">Back to Platforms</a>
 
 </form>

@@ -31,7 +31,7 @@ platformsRouter.get("/:id", getPlatform);
 
 platformsRouter.get("/:id/edit", editPlatform);
 
-platformsRouter.post("/:id", updatePlatform);
+platformsRouter.post("/:id", validatePlatform, updatePlatform);
 
 platformsRouter.post("/:id/delete", deletePlatform);
 

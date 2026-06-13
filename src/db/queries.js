@@ -60,6 +60,10 @@ const createPlatformQuery = async (name) => {
   await pool.query("INSERT INTO platforms (name) VALUES ($1)", [name]);
 };
 
+const updatePlatformQuery = async (id, name) => {
+  await pool.query("UPDATE platforms SET name = $1 WHERE id = $2", [name, id]);
+};
+
 // Games
 
 const getAllGames = async () => {
@@ -144,6 +148,7 @@ export {
   getPlatformById,
   getGamesByPlatform,
   createPlatformQuery,
+  updatePlatformQuery,
   getAllGames,
   getGameById,
   getGenresByGame,
