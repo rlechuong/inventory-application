@@ -31,7 +31,7 @@ genresRouter.get("/:id", getGenre);
 
 genresRouter.get("/:id/edit", editGenre);
 
-genresRouter.post("/:id", updateGenre);
+genresRouter.post("/:id", validateGenre, updateGenre);
 
 genresRouter.post("/:id/delete", deleteGenre);
 

@@ -1,5 +1,11 @@
 import { validationResult, matchedData } from "express-validator";
-import { getAllGenres, getGenreById, getGamesByGenre, createGenreQuery } from "../db/queries.js";
+import {
+  getAllGenres,
+  getGenreById,
+  getGamesByGenre,
+  createGenreQuery,
+  updateGenreQuery,
+} from "../db/queries.js";
 
 const listGenres = async (req, res, next) => {
   try {
@@ -11,13 +17,25 @@ const listGenres = async (req, res, next) => {
 };
 
 const newGenre = (req, res) => {
-  res.render("genreForm", { errors: [], value: "" });
+  res.render("genreForm", {
+    errors: [],
+    value: "",
+    action: "/genres",
+    heading: "New Genre",
+    buttonText: "Create Genre",
+  });
 };
 
 const createGenre = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).render("genreForm", { errors: errors.array(), value: req.body.name });
+    return res.status(400).render("genreForm", {
+      errors: errors.array(),
+      value: req.body.name,
+      action: "/genres",
+      heading: "New Genre",
+      buttonText: "Create Genre",
+    });
   }
 
   const { name } = matchedData(req);
@@ -29,6 +47,9 @@ const createGenre = async (req, res, next) => {
       return res.status(400).render("genreForm", {
         errors: [{ msg: "A genre with that name already exists." }],
         value: name,
+        action: "/genres",
+        heading: "New Genre",
+        buttonText: "Create Genre",
       });
     }
     next(err);
@@ -46,12 +67,51 @@ const getGenre = async (req, res, next) => {
   }
 };
 
-const editGenre = (req, res) => {
-  res.send("Show edit genre form.");
+const editGenre = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const genre = await getGenreById(id);
+    res.render("genreForm", {
+      errors: [],
+      value: genre.name,
+      action: `/genres/${id}`,
+      heading: "Edit Genre",
+      buttonText: "Update Genre",
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
-const updateGenre = (req, res) => {
-  res.send("Submit edit genre form.");
+const updateGenre = async (req, res, next) => {
+  const { id } = req.params;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render("genreForm", {
+      errors: errors.array(),
+      value: req.body.name,
+      action: `/genres/${id}`,
+      heading: "Edit Genre",
+      buttonText: "Update Genre",
+    });
+  }
+
+  const { name } = matchedData(req);
+  try {
+    await updateGenreQuery(id, name);
+    res.redirect(`/genres/${id}`);
+  } catch (err) {
+    if (err.code === "23505") {
+      return res.status(400).render("genreForm", {
+        errors: [{ msg: "A genre with that name already exists." }],
+        value: name,
+        action: `/genres/${id}`,
+        heading: "Edit Genre",
+        buttonText: "Update Genre",
+      });
+    }
+    next(err);
+  }
 };
 
 const deleteGenre = (req, res) => {
