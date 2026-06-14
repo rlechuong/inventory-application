@@ -72,7 +72,7 @@ gamesRouter.get("/:id", getGame);
 
 gamesRouter.get("/:id/edit", editGame);
 
-gamesRouter.post("/:id", updateGame);
+gamesRouter.post("/:id", validateGame, updateGame);
 
 gamesRouter.post("/:id/delete", deleteGame);
 

@@ -72,7 +72,13 @@ const getAllGames = async () => {
 };
 
 const getGameById = async (id) => {
-  const { rows } = await pool.query("SELECT * FROM games WHERE id = $1", [id]);
+  const { rows } = await pool.query(
+    `
+    SELECT *, TO_CHAR(release_date, 'YYYY-MM-DD') AS release_date
+    FROM games
+    WHERE id = $1`,
+    [id],
+  );
   return rows[0];
 };
 
@@ -122,6 +128,25 @@ const createGameQuery = async (gameData) => {
   return rows[0].id;
 };
 
+const updateGameQuery = async (id, gameData) => {
+  await pool.query(
+    `UPDATE games 
+    SET title = $1, developer = $2, publisher = $3, release_date = $4, price = $5, stock = $6, cover_image_url = $7, description = $8
+    WHERE id = $9`,
+    [
+      gameData.title,
+      gameData.developer,
+      gameData.publisher,
+      gameData.release_date,
+      gameData.price,
+      gameData.stock,
+      gameData.cover_image_url,
+      gameData.description,
+      id,
+    ],
+  );
+};
+
 // Join Tables
 
 const addGameGenre = async (gameId, genreId) => {
@@ -136,6 +161,14 @@ const addGamePlatform = async (gameId, platformId) => {
     gameId,
     platformId,
   ]);
+};
+
+const deleteGameGenres = async (gameId) => {
+  await pool.query("DELETE FROM game_genres WHERE game_id = $1", [gameId]);
+};
+
+const deleteGamePlatforms = async (gameId) => {
+  await pool.query("DELETE FROM game_platforms WHERE game_id = $1", [gameId]);
 };
 
 export {
@@ -154,6 +187,9 @@ export {
   getGenresByGame,
   getPlatformsByGame,
   createGameQuery,
+  updateGameQuery,
   addGameGenre,
   addGamePlatform,
+  deleteGameGenres,
+  deleteGamePlatforms,
 };
