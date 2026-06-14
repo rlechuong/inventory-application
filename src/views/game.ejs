@@ -58,4 +58,10 @@
   <p>No description available.</p>
 <% } %>
 
+<a href="/games/<%= game.id %>/edit">Edit Game</a>
+
+<form method="POST" action="/games/<%= game.id %>/delete">
+  <button type="submit">Delete Game</button>
+</form>
+
 <%- include("./partials/footer") %>

@@ -12,4 +12,10 @@
   </ul>
 <% } %>
 
+<a href="/genres/<%= genre.id %>/edit">Edit Genre</a>
+
+<form method="POST" action="/genres/<%= genre.id %>/delete">
+  <button type="submit">Delete Genre</button>
+</form>
+
 <%- include("./partials/footer") %>

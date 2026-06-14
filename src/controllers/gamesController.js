@@ -12,6 +12,7 @@ import {
   addGamePlatform,
   deleteGameGenres,
   deleteGamePlatforms,
+  deleteGameQuery,
 } from "../db/queries.js";
 
 const listGames = async (req, res, next) => {
@@ -209,8 +210,14 @@ const updateGame = async (req, res, next) => {
   }
 };
 
-const deleteGame = (req, res) => {
-  res.send("Delete a game.");
+const deleteGame = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await deleteGameQuery(id);
+    res.redirect("/games");
+  } catch (err) {
+    next(err);
+  }
 };
 
 export { listGames, newGame, createGame, getGame, editGame, updateGame, deleteGame };

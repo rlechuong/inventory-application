@@ -5,6 +5,7 @@ import {
   getGamesByPlatform,
   createPlatformQuery,
   updatePlatformQuery,
+  deletePlatformQuery,
 } from "../db/queries.js";
 
 const listPlatforms = async (req, res, next) => {
@@ -114,8 +115,14 @@ const updatePlatform = async (req, res, next) => {
   }
 };
 
-const deletePlatform = (req, res) => {
-  res.send("Delete a platform.");
+const deletePlatform = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await deletePlatformQuery(id);
+    res.redirect("/platforms");
+  } catch (err) {
+    next(err);
+  }
 };
 
 export {

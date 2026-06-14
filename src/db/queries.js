@@ -32,6 +32,10 @@ const updateGenreQuery = async (id, name) => {
   await pool.query("UPDATE genres SET name = $1 WHERE id = $2", [name, id]);
 };
 
+const deleteGenreQuery = async (id) => {
+  await pool.query("DELETE FROM genres WHERE id = $1", [id]);
+};
+
 // Platforms
 
 const getAllPlatforms = async () => {
@@ -62,6 +66,10 @@ const createPlatformQuery = async (name) => {
 
 const updatePlatformQuery = async (id, name) => {
   await pool.query("UPDATE platforms SET name = $1 WHERE id = $2", [name, id]);
+};
+
+const deletePlatformQuery = async (id) => {
+  await pool.query("DELETE FROM platforms WHERE id = $1", [id]);
 };
 
 // Games
@@ -171,17 +179,23 @@ const deleteGamePlatforms = async (gameId) => {
   await pool.query("DELETE FROM game_platforms WHERE game_id = $1", [gameId]);
 };
 
+const deleteGameQuery = async (id) => {
+  await pool.query("DELETE FROM games WHERE id = $1", [id]);
+};
+
 export {
   getAllGenres,
   getGenreById,
   getGamesByGenre,
   createGenreQuery,
   updateGenreQuery,
+  deleteGenreQuery,
   getAllPlatforms,
   getPlatformById,
   getGamesByPlatform,
   createPlatformQuery,
   updatePlatformQuery,
+  deletePlatformQuery,
   getAllGames,
   getGameById,
   getGenresByGame,
@@ -192,4 +206,5 @@ export {
   addGamePlatform,
   deleteGameGenres,
   deleteGamePlatforms,
+  deleteGameQuery,
 };

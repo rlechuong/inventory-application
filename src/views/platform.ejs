@@ -12,4 +12,10 @@
   </ul>
 <% } %>
 
+<a href="/platforms/<%= platform.id %>/edit">Edit Platform</a>
+
+<form method="POST" action="/platforms/<%= platform.id %>/delete">
+  <button type="submit">Delete Platform</button>
+</form>
+
 <%- include("./partials/footer") %>

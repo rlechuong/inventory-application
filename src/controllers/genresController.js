@@ -5,6 +5,7 @@ import {
   getGamesByGenre,
   createGenreQuery,
   updateGenreQuery,
+  deleteGenreQuery,
 } from "../db/queries.js";
 
 const listGenres = async (req, res, next) => {
@@ -114,8 +115,14 @@ const updateGenre = async (req, res, next) => {
   }
 };
 
-const deleteGenre = (req, res) => {
-  res.send("Delete a genre.");
+const deleteGenre = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await deleteGenreQuery(id);
+    res.redirect("/genres");
+  } catch (err) {
+    next(err);
+  }
 };
 
 export { listGenres, newGenre, createGenre, getGenre, editGenre, updateGenre, deleteGenre };
