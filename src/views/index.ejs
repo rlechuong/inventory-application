@@ -1,0 +1,41 @@
+<%- include("./partials/header.ejs") %>
+
+<h1>Welcome To Inventory Application</h1>
+
+<h2>Quick Stats</h2>
+
+<ul>
+  <li><%= games.length %> Games</li>
+  <li><%= genres.length %> Genres</li>
+  <li><%= platforms.length %> Platforms</li>
+</ul>
+
+<h2>Quick Actions</h2>
+
+<div>
+	<a href="/games/new">Add Game</a>
+	<a href="/genres/new">Add Genre</a>
+	<a href="/platforms/new">Add Platform</a>
+</div>
+
+<h2>Browse By Genre</h2>
+
+<ul>
+	<% genres.forEach(genre => { %>
+		<li><a href="/genres/<%= genre.id %>"><%= genre.name %></a></li>
+	<% }) %>
+</ul>
+
+<h2>Browse By Platform</h2>
+
+<ul>
+	<% platforms.forEach(platform => { %>
+		<li><a href="/platforms/<%= platform.id %>"><%= platform.name %></a></li>
+	<% }) %>
+</ul>
+
+<h2>Browse All Games</h2>
+
+<a href="/games">View All Games</a>
+
+<%- include("./partials/footer.ejs") %>

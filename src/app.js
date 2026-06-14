@@ -4,6 +4,7 @@ import path from "node:path";
 import { gamesRouter } from "./routes/games.js";
 import { genresRouter } from "./routes/genres.js";
 import { platformsRouter } from "./routes/platforms.js";
+import { renderIndex } from "./controllers/indexController.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,9 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(import.meta.dirname, "..", "public")));
 
-app.get("/", (req, res) => {
-  res.send("Test");
-});
+app.get("/", renderIndex);
 
 app.use("/games", gamesRouter);
 
