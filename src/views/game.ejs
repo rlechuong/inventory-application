@@ -2,6 +2,22 @@
 
 <h1><%= game.title %></h1>
 
+<% if (errors.length > 0) { %>
+  <ul>
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<a href="/games/<%= game.id %>/edit">Edit Game</a>
+
+<form method="POST" action="/games/<%= game.id %>/delete">
+  <label for="adminPassword">Admin Password</label>
+  <input type="password" id="adminPassword" name="adminPassword" required />
+  <button type="submit">Delete Game</button>
+</form>
+
 <div>
   <% if (game.cover_image_url) { %>
     <img src="<%= game.cover_image_url %>" alt="Cover Image For <%= game.title %>"/>
@@ -57,11 +73,5 @@
 <% } else { %>
   <p>No description available.</p>
 <% } %>
-
-<a href="/games/<%= game.id %>/edit">Edit Game</a>
-
-<form method="POST" action="/games/<%= game.id %>/delete">
-  <button type="submit">Delete Game</button>
-</form>
 
 <%- include("./partials/footer") %>

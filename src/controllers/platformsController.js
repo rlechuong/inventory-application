@@ -26,6 +26,7 @@ const newPlatform = (req, res) => {
     heading: "New Platform",
     buttonText: "Create Platform",
     backUrl: "/platforms",
+    requirePassword: false,
   });
 };
 
@@ -39,6 +40,7 @@ const createPlatform = async (req, res, next) => {
       heading: "New Platform",
       buttonText: "Create Platform",
       backUrl: "/platforms",
+      requirePassword: false,
     });
   }
 
@@ -55,6 +57,7 @@ const createPlatform = async (req, res, next) => {
         heading: "New Platform",
         buttonText: "Create Platform",
         backUrl: "/platforms",
+        requirePassword: false,
       });
     }
     next(err);
@@ -69,7 +72,7 @@ const getPlatform = async (req, res, next) => {
       return next(new NotFoundError("Platform not found."));
     }
     const games = await getGamesByPlatform(id);
-    res.render("platform", { platform, games });
+    res.render("platform", { platform, games, errors: [] });
   } catch (err) {
     next(err);
   }
@@ -89,6 +92,7 @@ const editPlatform = async (req, res, next) => {
       heading: "Edit Platform",
       buttonText: "Update Platform",
       backUrl: `/platforms/${id}`,
+      requirePassword: true,
     });
   } catch (err) {
     next(err);
@@ -106,6 +110,19 @@ const updatePlatform = async (req, res, next) => {
       heading: "Edit Platform",
       buttonText: "Update Platform",
       backUrl: `/platforms/${id}`,
+      requirePassword: true,
+    });
+  }
+
+  if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
+    return res.status(403).render("platformForm", {
+      errors: [{ msg: "Incorrect admin password" }],
+      value: req.body.name,
+      action: `/platforms/${id}`,
+      heading: "Edit Platform",
+      buttonText: "Update Platform",
+      backUrl: `/platforms/${id}`,
+      requirePassword: true,
     });
   }
 
@@ -126,6 +143,7 @@ const updatePlatform = async (req, res, next) => {
         heading: "Edit Platform",
         buttonText: "Update Platform",
         backUrl: `/platforms/${id}`,
+        requirePassword: true,
       });
     }
     next(err);
@@ -138,6 +156,12 @@ const deletePlatform = async (req, res, next) => {
     const platform = await getPlatformById(id);
     if (!platform) {
       return next(new NotFoundError("Platform not found."));
+    }
+    if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
+      const games = await getGamesByPlatform(id);
+      return res
+        .status(403)
+        .render("platform", { platform, games, errors: [{ msg: "Incorrect admin password." }] });
     }
     await deletePlatformQuery(id);
     res.redirect("/platforms");

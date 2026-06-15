@@ -2,11 +2,21 @@
 
 <h1><%= platform.name %> Games</h1>
 
+<% if (errors.length > 0) { %>
+  <ul>
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
 <a href="/games/new">Add Game</a>
 
 <a href="/platforms/<%= platform.id %>/edit">Edit Platform</a>
 
 <form method="POST" action="/platforms/<%= platform.id %>/delete">
+  <label for="adminPassword">Admin Password</label>
+  <input type="password" id="adminPassword" name="adminPassword" required />
   <button type="submit">Delete Platform</button>
 </form>
 

@@ -38,6 +38,7 @@ const newGame = async (req, res, next) => {
       heading: "New Game",
       buttonText: "Create Game",
       backUrl: "/games",
+      requirePassword: false,
     });
   } catch (err) {
     next(err);
@@ -59,6 +60,7 @@ const createGame = async (req, res, next) => {
         heading: "New Game",
         buttonText: "Create Game",
         backUrl: "/games",
+        requirePassword: false,
       });
     } catch (err) {
       return next(err);
@@ -105,6 +107,7 @@ const createGame = async (req, res, next) => {
         heading: "New Game",
         buttonText: "Create Game",
         backUrl: "/games",
+        requirePassword: false,
       });
     }
     next(err);
@@ -120,7 +123,7 @@ const getGame = async (req, res, next) => {
     }
     const genres = await getGenresByGame(id);
     const platforms = await getPlatformsByGame(id);
-    res.render("game", { game, genres, platforms });
+    res.render("game", { game, genres, platforms, errors: [] });
   } catch (err) {
     next(err);
   }
@@ -148,6 +151,7 @@ const editGame = async (req, res, next) => {
       heading: "Edit Game",
       buttonText: "Update Game",
       backUrl: `/games/${id}`,
+      requirePassword: true,
     });
   } catch (err) {
     next(err);
@@ -170,10 +174,27 @@ const updateGame = async (req, res, next) => {
         heading: "Edit Game",
         buttonText: "Update Game",
         backUrl: `/games/${id}`,
+        requirePassword: true,
       });
     } catch (err) {
       return next(err);
     }
+  }
+
+  if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
+    const genres = await getAllGenres();
+    const platforms = await getAllPlatforms();
+    return res.status(403).render("gameForm", {
+      errors: [{ msg: "Incorrect admin password." }],
+      values: req.body,
+      genres,
+      platforms,
+      action: `/games/${id}`,
+      heading: "Edit Game",
+      buttonText: "Update Game",
+      backUrl: `/games/${id}`,
+      requirePassword: true,
+    });
   }
 
   const {
@@ -221,6 +242,7 @@ const updateGame = async (req, res, next) => {
         heading: "Edit Game",
         buttonText: "Update Game",
         backUrl: `/games/${id}`,
+        requirePassword: true,
       });
     }
     next(err);
@@ -233,6 +255,16 @@ const deleteGame = async (req, res, next) => {
     const game = await getGameById(id);
     if (!game) {
       return next(new NotFoundError("Game not found."));
+    }
+    if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
+      const genres = await getGenresByGame(id);
+      const platforms = await getPlatformsByGame(id);
+      return res.status(403).render("game", {
+        game,
+        genres,
+        platforms,
+        errors: [{ msg: "Incorrect admin password." }],
+      });
     }
     await deleteGameQuery(id);
     res.redirect("/games");

@@ -12,9 +12,14 @@
     </ul>
   <% } %>
 
-  <label for="name">Name </label>
+  <label for="name">Name</label>
   <input type="text" id="name" name="name" value="<%= value || '' %>" required />
   
+  <% if (requirePassword) { %>
+    <label for="adminPassword">Admin Password</label>
+    <input type="password" id="adminPassword" name="adminPassword" required />
+  <% } %>
+
   <button type="submit"><%= buttonText %></button>
   <a href="<%= backUrl %>">Back</a>
 

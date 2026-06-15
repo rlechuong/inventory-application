@@ -15,8 +15,10 @@
   <label for="name">Name</label>
   <input type="text" id="name" name="name" value="<%= value || '' %>" required />
 
-  <label for="adminPassword">Admin Password</label>
-  <input type="password" id="adminPassword" name="adminPassword" required />
+  <% if (requirePassword) { %>
+    <label for="adminPassword">Admin Password</label>
+    <input type="password" id="adminPassword" name="adminPassword" required />
+  <% } %>
 
   <button type="submit"><%= buttonText %></button>
   <a href="<%= backUrl %>">Back</a>

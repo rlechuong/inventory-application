@@ -26,6 +26,7 @@ const newGenre = (req, res) => {
     heading: "New Genre",
     buttonText: "Create Genre",
     backUrl: "/genres",
+    requirePassword: false,
   });
 };
 
@@ -39,6 +40,7 @@ const createGenre = async (req, res, next) => {
       heading: "New Genre",
       buttonText: "Create Genre",
       backUrl: "/genres",
+      requirePassword: false,
     });
   }
 
@@ -55,6 +57,7 @@ const createGenre = async (req, res, next) => {
         heading: "New Genre",
         buttonText: "Create Genre",
         backUrl: "/genres",
+        requirePassword: false,
       });
     }
     next(err);
@@ -69,7 +72,7 @@ const getGenre = async (req, res, next) => {
       return next(new NotFoundError("Genre not found."));
     }
     const games = await getGamesByGenre(id);
-    res.render("genre", { genre, games });
+    res.render("genre", { genre, games, errors: [] });
   } catch (err) {
     next(err);
   }
@@ -89,6 +92,7 @@ const editGenre = async (req, res, next) => {
       heading: "Edit Genre",
       buttonText: "Update Genre",
       backUrl: `/genres/${id}`,
+      requirePassword: true,
     });
   } catch (err) {
     next(err);
@@ -106,6 +110,19 @@ const updateGenre = async (req, res, next) => {
       heading: "Edit Genre",
       buttonText: "Update Genre",
       backUrl: `/genres/${id}`,
+      requirePassword: true,
+    });
+  }
+
+  if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
+    return res.status(403).render("genreForm", {
+      errors: [{ msg: "Incorrect admin password." }],
+      value: req.body.name,
+      action: `/genres/${id}`,
+      heading: "Edit Genre",
+      buttonText: "Update Genre",
+      backUrl: `/genres/${id}`,
+      requirePassword: true,
     });
   }
 
@@ -126,6 +143,7 @@ const updateGenre = async (req, res, next) => {
         heading: "Edit Genre",
         buttonText: "Update Genre",
         backUrl: `/genres/${id}`,
+        requirePassword: true,
       });
     }
     next(err);
@@ -138,6 +156,12 @@ const deleteGenre = async (req, res, next) => {
     const genre = await getGenreById(id);
     if (!genre) {
       return next(new NotFoundError("Genre not found."));
+    }
+    if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
+      const games = await getGamesByGenre(id);
+      return res
+        .status(403)
+        .render("genre", { genre, games, errors: [{ msg: "Incorrect admin password." }] });
     }
     await deleteGenreQuery(id);
     res.redirect("/genres");

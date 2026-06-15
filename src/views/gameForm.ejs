@@ -60,6 +60,11 @@
     <% }) %>
   </fieldset>
 
+  <% if (requirePassword) { %>
+    <label for="adminPassword">Admin Password</label>
+    <input type="password" id="adminPassword" name="adminPassword" required />
+  <% } %>
+
   <button type="submit"><%= buttonText %></button>
   <a href="<%= backUrl %>">Back</a>
 
