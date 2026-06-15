@@ -139,7 +139,8 @@ const createGameQuery = async (gameData) => {
 const updateGameQuery = async (id, gameData) => {
   await pool.query(
     `UPDATE games 
-    SET title = $1, developer = $2, publisher = $3, release_date = $4, price = $5, stock = $6, cover_image_url = $7, description = $8
+    SET title = $1, developer = $2, publisher = $3, release_date = $4, price = $5, stock = $6,
+        cover_image_url = $7, description = $8, updated_at = CURRENT_TIMESTAMP
     WHERE id = $9`,
     [
       gameData.title,

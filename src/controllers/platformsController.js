@@ -1,4 +1,5 @@
 import { validationResult, matchedData } from "express-validator";
+import { NotFoundError } from "../errors/NotFoundError.js";
 import {
   getAllPlatforms,
   getPlatformById,
@@ -64,6 +65,9 @@ const getPlatform = async (req, res, next) => {
   const { id } = req.params;
   try {
     const platform = await getPlatformById(id);
+    if (!platform) {
+      return next(new NotFoundError("Platform not found."));
+    }
     const games = await getGamesByPlatform(id);
     res.render("platform", { platform, games });
   } catch (err) {
@@ -75,6 +79,9 @@ const editPlatform = async (req, res, next) => {
   const { id } = req.params;
   try {
     const platform = await getPlatformById(id);
+    if (!platform) {
+      return next(new NotFoundError("Platform not found."));
+    }
     res.render("platformForm", {
       errors: [],
       value: platform.name,
@@ -104,6 +111,10 @@ const updatePlatform = async (req, res, next) => {
 
   const { name } = matchedData(req);
   try {
+    const platform = await getPlatformById(id);
+    if (!platform) {
+      return next(new NotFoundError("Platform not found."));
+    }
     await updatePlatformQuery(id, name);
     res.redirect(`/platforms/${id}`);
   } catch (err) {
@@ -124,6 +135,10 @@ const updatePlatform = async (req, res, next) => {
 const deletePlatform = async (req, res, next) => {
   const { id } = req.params;
   try {
+    const platform = await getPlatformById(id);
+    if (!platform) {
+      return next(new NotFoundError("Platform not found."));
+    }
     await deletePlatformQuery(id);
     res.redirect("/platforms");
   } catch (err) {

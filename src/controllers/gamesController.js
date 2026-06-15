@@ -1,4 +1,5 @@
 import { validationResult, matchedData } from "express-validator";
+import { NotFoundError } from "../errors/NotFoundError.js";
 import {
   getAllGenres,
   getAllPlatforms,
@@ -114,6 +115,9 @@ const getGame = async (req, res, next) => {
   const { id } = req.params;
   try {
     const game = await getGameById(id);
+    if (!game) {
+      return next(new NotFoundError("Game not found."));
+    }
     const genres = await getGenresByGame(id);
     const platforms = await getPlatformsByGame(id);
     res.render("game", { game, genres, platforms });
@@ -126,6 +130,9 @@ const editGame = async (req, res, next) => {
   const { id } = req.params;
   try {
     const game = await getGameById(id);
+    if (!game) {
+      return next(new NotFoundError("Game not found."));
+    }
     const gameGenres = await getGenresByGame(id);
     const gamePlatforms = await getPlatformsByGame(id);
     const genres = await getAllGenres();
@@ -182,6 +189,10 @@ const updateGame = async (req, res, next) => {
     platforms,
   } = matchedData(req);
   try {
+    const game = await getGameById(id);
+    if (!game) {
+      return next(new NotFoundError("Game not found."));
+    }
     await updateGameQuery(id, {
       title,
       developer,
@@ -219,6 +230,10 @@ const updateGame = async (req, res, next) => {
 const deleteGame = async (req, res, next) => {
   const { id } = req.params;
   try {
+    const game = await getGameById(id);
+    if (!game) {
+      return next(new NotFoundError("Game not found."));
+    }
     await deleteGameQuery(id);
     res.redirect("/games");
   } catch (err) {

@@ -1,4 +1,5 @@
 import { validationResult, matchedData } from "express-validator";
+import { NotFoundError } from "../errors/NotFoundError.js";
 import {
   getAllGenres,
   getGenreById,
@@ -64,6 +65,9 @@ const getGenre = async (req, res, next) => {
   const { id } = req.params;
   try {
     const genre = await getGenreById(id);
+    if (!genre) {
+      return next(new NotFoundError("Genre not found."));
+    }
     const games = await getGamesByGenre(id);
     res.render("genre", { genre, games });
   } catch (err) {
@@ -75,6 +79,9 @@ const editGenre = async (req, res, next) => {
   const { id } = req.params;
   try {
     const genre = await getGenreById(id);
+    if (!genre) {
+      return next(new NotFoundError("Genre not found."));
+    }
     res.render("genreForm", {
       errors: [],
       value: genre.name,
@@ -104,6 +111,10 @@ const updateGenre = async (req, res, next) => {
 
   const { name } = matchedData(req);
   try {
+    const genre = await getGenreById(id);
+    if (!genre) {
+      return next(new NotFoundError("Genre not found."));
+    }
     await updateGenreQuery(id, name);
     res.redirect(`/genres/${id}`);
   } catch (err) {
@@ -124,6 +135,10 @@ const updateGenre = async (req, res, next) => {
 const deleteGenre = async (req, res, next) => {
   const { id } = req.params;
   try {
+    const genre = await getGenreById(id);
+    if (!genre) {
+      return next(new NotFoundError("Genre not found."));
+    }
     await deleteGenreQuery(id);
     res.redirect("/genres");
   } catch (err) {
