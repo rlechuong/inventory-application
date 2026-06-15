@@ -2,12 +2,14 @@
 
 <h1>Games</h1>
 
+<a href="/games/new">Add Game</a>
+
 <% if (games.length === 0) { %>
   <p>No games found.</p>
 <% } else { %>
   <ul>
     <% games.forEach(game => { %>
-      <li><%= game.title %></li>
+      <li><a href="/games/<%= game.id %>"><%= game.title %></a></li>
     <% }) %>
   </ul>
 <% } %>

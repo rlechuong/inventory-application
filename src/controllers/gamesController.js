@@ -36,6 +36,7 @@ const newGame = async (req, res, next) => {
       action: "/games",
       heading: "New Game",
       buttonText: "Create Game",
+      backUrl: "/games",
     });
   } catch (err) {
     next(err);
@@ -56,6 +57,7 @@ const createGame = async (req, res, next) => {
         action: "/games",
         heading: "New Game",
         buttonText: "Create Game",
+        backUrl: "/games",
       });
     } catch (err) {
       return next(err);
@@ -101,6 +103,7 @@ const createGame = async (req, res, next) => {
         action: "/games",
         heading: "New Game",
         buttonText: "Create Game",
+        backUrl: "/games",
       });
     }
     next(err);
@@ -137,6 +140,7 @@ const editGame = async (req, res, next) => {
       action: `/games/${id}`,
       heading: "Edit Game",
       buttonText: "Update Game",
+      backUrl: `/games/${id}`,
     });
   } catch (err) {
     next(err);
@@ -158,6 +162,7 @@ const updateGame = async (req, res, next) => {
         action: `/games/${id}`,
         heading: "Edit Game",
         buttonText: "Update Game",
+        backUrl: `/games/${id}`,
       });
     } catch (err) {
       return next(err);
@@ -204,6 +209,7 @@ const updateGame = async (req, res, next) => {
         action: `/games/${id}`,
         heading: "Edit Game",
         buttonText: "Update Game",
+        backUrl: `/games/${id}`,
       });
     }
     next(err);

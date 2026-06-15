@@ -24,6 +24,7 @@ const newPlatform = (req, res) => {
     action: "/platforms",
     heading: "New Platform",
     buttonText: "Create Platform",
+    backUrl: "/platforms",
   });
 };
 
@@ -36,6 +37,7 @@ const createPlatform = async (req, res, next) => {
       action: "/platforms",
       heading: "New Platform",
       buttonText: "Create Platform",
+      backUrl: "/platforms",
     });
   }
 
@@ -51,6 +53,7 @@ const createPlatform = async (req, res, next) => {
         action: "/platforms",
         heading: "New Platform",
         buttonText: "Create Platform",
+        backUrl: "/platforms",
       });
     }
     next(err);
@@ -78,6 +81,7 @@ const editPlatform = async (req, res, next) => {
       action: `/platforms/${id}`,
       heading: "Edit Platform",
       buttonText: "Update Platform",
+      backUrl: `/platforms/${id}`,
     });
   } catch (err) {
     next(err);
@@ -94,6 +98,7 @@ const updatePlatform = async (req, res, next) => {
       action: `/platforms/${id}`,
       heading: "Edit Platform",
       buttonText: "Update Platform",
+      backUrl: `/platforms/${id}`,
     });
   }
 
@@ -109,6 +114,7 @@ const updatePlatform = async (req, res, next) => {
         action: `/platforms/${id}`,
         heading: "Edit Platform",
         buttonText: "Update Platform",
+        backUrl: `/platforms/${id}`,
       });
     }
     next(err);

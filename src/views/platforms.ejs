@@ -2,12 +2,14 @@
 
 <h1>Platforms</h1>
 
+<a href="/platforms/new">Add Platform</a>
+
 <% if (platforms.length === 0) { %>
   <p>No platforms found.</p>
 <% } else { %>
   <ul>
     <% platforms.forEach(platform => { %>
-      <li><%= platform.name %></li>
+      <li><a href="/platforms/<%= platform.id %>"><%= platform.name %></a></li>
     <% }) %>
   </ul>
 <% } %>

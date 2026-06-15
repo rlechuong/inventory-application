@@ -24,6 +24,7 @@ const newGenre = (req, res) => {
     action: "/genres",
     heading: "New Genre",
     buttonText: "Create Genre",
+    backUrl: "/genres",
   });
 };
 
@@ -36,6 +37,7 @@ const createGenre = async (req, res, next) => {
       action: "/genres",
       heading: "New Genre",
       buttonText: "Create Genre",
+      backUrl: "/genres",
     });
   }
 
@@ -51,6 +53,7 @@ const createGenre = async (req, res, next) => {
         action: "/genres",
         heading: "New Genre",
         buttonText: "Create Genre",
+        backUrl: "/genres",
       });
     }
     next(err);
@@ -78,6 +81,7 @@ const editGenre = async (req, res, next) => {
       action: `/genres/${id}`,
       heading: "Edit Genre",
       buttonText: "Update Genre",
+      backUrl: `/genres/${id}`,
     });
   } catch (err) {
     next(err);
@@ -94,6 +98,7 @@ const updateGenre = async (req, res, next) => {
       action: `/genres/${id}`,
       heading: "Edit Genre",
       buttonText: "Update Genre",
+      backUrl: `/genres/${id}`,
     });
   }
 
@@ -109,6 +114,7 @@ const updateGenre = async (req, res, next) => {
         action: `/genres/${id}`,
         heading: "Edit Genre",
         buttonText: "Update Genre",
+        backUrl: `/genres/${id}`,
       });
     }
     next(err);

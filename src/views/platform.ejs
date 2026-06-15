@@ -2,20 +2,22 @@
 
 <h1><%= platform.name %> Games</h1>
 
-<% if (games.length === 0) { %>
-  <p>No games in this platform.</p>
-<% } else { %>
-  <ul>
-    <% games.forEach(game => { %>
-      <li><%= game.title %></li>
-    <% }) %>
-  </ul>
-<% } %>
+<a href="/games/new">Add Game</a>
 
 <a href="/platforms/<%= platform.id %>/edit">Edit Platform</a>
 
 <form method="POST" action="/platforms/<%= platform.id %>/delete">
   <button type="submit">Delete Platform</button>
 </form>
+
+<% if (games.length === 0) { %>
+  <p>No games in this platform.</p>
+<% } else { %>
+  <ul>
+    <% games.forEach(game => { %>
+      <li><a href="/games/<%= game.id %>"><%= game.title %></a></li>
+    <% }) %>
+  </ul>
+<% } %>
 
 <%- include("./partials/footer") %>
