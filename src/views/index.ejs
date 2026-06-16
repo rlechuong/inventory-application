@@ -1,41 +1,54 @@
 <%- include("./partials/header.ejs") %>
 
-<h1>Welcome To RLE Games</h1>
+<div class="hero">
+	<h1>Welcome To RLE Games</h1>
+  <p>Game inventory management system.</p>
+</div>
 
-<h2>Quick Stats</h2>
+  <h2>Quick Stats</h2>
 
-<ul>
-  <li><%= games.length %> Games</li>
-  <li><%= genres.length %> Genres</li>
-  <li><%= platforms.length %> Platforms</li>
-</ul>
+<div class="stats-grid">
+  <div class="stats-card">
+      <span class="stats-number"><%= games.length %></span>
+      <span class="stats-label">Games</span>
+  </div>
+    <div class="stats-card">
+      <span class="stats-number"><%= genres.length %></span>
+      <span class="stats-label">Genres</span>
+  </div>
+    <div class="stats-card">
+      <span class="stats-number"><%= platforms.length %></span>
+      <span class="stats-label">Platforms</span>
+  </div>
+</div>
 
 <h2>Quick Actions</h2>
 
-<div>
-	<a href="/games/new">Add Game</a>
-	<a href="/genres/new">Add Genre</a>
-	<a href="/platforms/new">Add Platform</a>
+<div class="quick-actions">
+	<a href="/games/new" class="btn-link">Add Game</a>
+	<a href="/genres/new" class="btn-link">Add Genre</a>
+	<a href="/platforms/new" class="btn-link">Add Platform</a>
+  <a href="/games" class="btn-link">View All Games</a>
 </div>
 
 <h2>Browse By Genre</h2>
 
-<ul>
+<section class="browse-section category-grid" >
 	<% genres.forEach(genre => { %>
-		<li><a href="/genres/<%= genre.id %>"><%= genre.name %></a></li>
+		<a href="/genres/<%= genre.id %>" class="category-card">
+      <%= genre.name %>
+    </a>
 	<% }) %>
-</ul>
+</section>
 
 <h2>Browse By Platform</h2>
 
-<ul>
+<section class="browse-section category-grid">
 	<% platforms.forEach(platform => { %>
-		<li><a href="/platforms/<%= platform.id %>"><%= platform.name %></a></li>
+		<a href="/platforms/<%= platform.id %>" class="category-card">
+      <%= platform.name %>
+    </a>
 	<% }) %>
-</ul>
-
-<h2>Browse All Games</h2>
-
-<a href="/games">View All Games</a>
+</section>
 
 <%- include("./partials/footer.ejs") %>

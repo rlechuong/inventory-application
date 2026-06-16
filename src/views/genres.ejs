@@ -2,16 +2,18 @@
 
 <h1>Genres</h1>
 
-<a href="/genres/new">Add Genre</a>
+<a href="/genres/new" class="btn-link">Add Genre</a>
 
 <% if (genres.length === 0) { %>
   <p>No genres found.</p>
 <% } else { %>
-  <ul>
+  <div class="category-grid">
     <% genres.forEach(genre => { %>
-      <li><a href="/genres/<%= genre.id %>"><%= genre.name %></a></li>
+      <a href="/genres/<%= genre.id %>" class="category-card">
+        <%= genre.name %>
+      </a>
     <% }) %>
-  </ul>
+  </div>
 <% } %>
 
 <%- include("./partials/footer") %>

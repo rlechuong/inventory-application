@@ -2,16 +2,18 @@
 
 <h1>Platforms</h1>
 
-<a href="/platforms/new">Add Platform</a>
+<a href="/platforms/new" class="btn-link">Add Platform</a>
 
 <% if (platforms.length === 0) { %>
   <p>No platforms found.</p>
 <% } else { %>
-  <ul>
+  <div class="category-grid">
     <% platforms.forEach(platform => { %>
-      <li><a href="/platforms/<%= platform.id %>"><%= platform.name %></a></li>
+      <a href="/platforms/<%= platform.id %>" class="category-card">
+        <%= platform.name %>
+      </a>
     <% }) %>
-  </ul>
+  </div>
 <% } %>
 
 <%- include("./partials/footer") %>
