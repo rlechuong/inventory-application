@@ -2,27 +2,29 @@
 
 <h1><%= heading %></h1>
 
-<form method="POST" action="<%= action %>">
+<div class="form-container">
+  <form method="POST" action="<%= action %>">
 
-  <% if (errors.length > 0) { %>
-    <ul>
-      <% errors.forEach(error => { %>
-        <li><%= error.msg %></li>
-      <% }) %>
-    </ul>
-  <% } %>
+    <% if (errors.length > 0) { %>
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
 
-  <label for="name">Name</label>
-  <input type="text" id="name" name="name" value="<%= value || '' %>" required />
-  
-  <% if (requirePassword) { %>
-    <label for="adminPassword">Admin Password</label>
-    <input type="password" id="adminPassword" name="adminPassword" required />
-  <% } %>
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" value="<%= value || '' %>" required />
+    
+    <% if (requirePassword) { %>
+      <label for="adminPassword">Admin Password</label>
+      <input type="password" id="adminPassword" name="adminPassword" required />
+    <% } %>
 
-  <button type="submit"><%= buttonText %></button>
-  <a href="<%= backUrl %>">Back</a>
+    <button type="submit" class="btn-primary"><%= buttonText %></button>
+    <a href="<%= backUrl %>">Back</a>
 
-</form>
+  </form>
+</div>
 
 <%- include("./partials/footer.ejs") %>

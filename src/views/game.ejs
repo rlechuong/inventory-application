@@ -1,77 +1,77 @@
 <%- include("./partials/header") %>
 
-<h1><%= game.title %></h1>
+<div class="game-detail">
+  <div class="game-detail-cover">
+    <% if (game.cover_image_url) { %>
+      <img src="<%= game.cover_image_url %>" alt="Cover Image For <%= game.title %>"
+        onerror="this.onerror=null;
+        this.parentElement.innerHTML='<div class=\'game-card-placeholder\'>No Image</div>'" />
+    <% } else { %>
+      <div class="game-card-placeholder">No Image</div>
+    <% } %>
+  </div>
 
-<% if (errors.length > 0) { %>
-  <ul>
-    <% errors.forEach(error => { %>
-      <li><%= error.msg %></li>
-    <% }) %>
-  </ul>
-<% } %>
+  <div class="game-detail-info">
+    <h1><%= game.title %></h1>
 
-<a href="/games/<%= game.id %>/edit">Edit Game</a>
+    <% if (errors.length > 0) { %>
+      <ul class="error-list">
+        <% errors.forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
 
-<form method="POST" action="/games/<%= game.id %>/delete">
-  <label for="adminPassword">Admin Password</label>
-  <input type="password" id="adminPassword" name="adminPassword" required />
-  <button type="submit">Delete Game</button>
-</form>
+    <div class="game-meta">
+      <div class="game-meta-item">
+        <span class="meta-label">Developer</span>
+        <span><%= game.developer %></span>
+      </div>
 
-<div>
-  <% if (game.cover_image_url) { %>
-    <img src="<%= game.cover_image_url %>" alt="Cover Image For <%= game.title %>"/>
-  <% } else { %>
-    <p>No image available.</p>
-  <% } %>
+      <div class="game-meta-item">
+        <span class="meta-label">Publisher</span>
+        <span><%= game.publisher %></span>
+      </div>
+
+      <div class="game-meta-item">
+        <span class="meta-label">Release Date</span>
+        <span><%= game.release_date || 'TBA' %></span>
+      </div>
+
+      <div class="game-meta-item">
+        <span class="meta-label">Price</span>
+        <span class="price">$<%= game.price %></span>
+      </div>
+
+      <div class="game-meta-item">
+        <span class="meta-label">Stock</span>
+        <span><%= game.stock %> Units</span>
+      </div>
+    </div>
+
+    <div class="game-tags">
+      <% genres.forEach(genre => { %>
+        <span class="tag tag-genre"><%= genre.name %></span>
+      <% }) %>
+      <% platforms.forEach(platform => { %>
+        <span class="tag tag-platform"><%= platform.name %></span>
+      <% }) %>
+    </div>
+
+    <% if (game.description) { %>
+      <p class="game-description"><%= game.description %></p>
+    <% } %>
+
+
+    <div class="game-actions">
+    <a href="/games/<%= game.id %>/edit" class="btn-link">Edit Game</a>
+      <form method="POST" action="/games/<%= game.id %>/delete">
+        <label for="adminPassword">Admin Password</label>
+        <input type="password" id="adminPassword" name="adminPassword" required />
+        <button type="submit" class="btn-delete">Delete Game</button>
+      </form>
+    </div>
+  </div>
 </div>
-
-<h3>Developer</h3>
-<p><%= game.developer %></p>
-
-<h3>Publisher</h3>
-<p><%= game.publisher %></p>
-
-<h3>Release Date</h3>
-<% if (game.release_date) { %>
-  <p><%= game.release_date %></p>
-<% } else { %>
-  <p>No release date available.</p>
-<% } %>
-
-<h3>Price</h3>
-<p><%= game.price %></p>
-
-<h3>Stock</h3>
-<p><%= game.stock %></p>
-
-<h3>Genres</h3>
-<% if (genres.length === 0) { %>
-  <p>No genres for this game.</p>
-<% } else { %>
-  <ul>
-    <% genres.forEach(genre => { %>
-      <li><%= genre.name %></li>
-    <% }) %>
-  </ul>
-<% } %>
-
-<h3>Platforms</h3>
-<% if (platforms.length === 0) { %>
-  <p>No platforms for this game.</p>
-<% } else { %>
-  <ul>
-    <% platforms.forEach(platform => { %>
-      <li><%= platform.name %></li>
-    <% }) %>
-  </ul>
-<% } %>
-
-<h3>Description</h3>
-<% if (game.description) { %>
-  <p><%= game.description %></p>
-<% } else { %>
-  <p>No description available.</p>
-<% } %>
 
 <%- include("./partials/footer") %>

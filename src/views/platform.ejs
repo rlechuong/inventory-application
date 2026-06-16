@@ -17,7 +17,7 @@
 <form method="POST" action="/platforms/<%= platform.id %>/delete">
   <label for="adminPassword">Admin Password</label>
   <input type="password" id="adminPassword" name="adminPassword" required />
-  <button type="submit">Delete Platform</button>
+  <button type="submit" class="btn-delete">Delete Platform</button>
 </form>
 
 <% if (games.length === 0) { %>
