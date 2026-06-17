@@ -182,19 +182,23 @@ const updateGame = async (req, res, next) => {
   }
 
   if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
-    const genres = await getAllGenres();
-    const platforms = await getAllPlatforms();
-    return res.status(403).render("gameForm", {
-      errors: [{ msg: "Incorrect admin password." }],
-      values: req.body,
-      genres,
-      platforms,
-      action: `/games/${id}`,
-      heading: "Edit Game",
-      buttonText: "Update Game",
-      backUrl: `/games/${id}`,
-      requirePassword: true,
-    });
+    try {
+      const genres = await getAllGenres();
+      const platforms = await getAllPlatforms();
+      return res.status(403).render("gameForm", {
+        errors: [{ msg: "Incorrect admin password." }],
+        values: req.body,
+        genres,
+        platforms,
+        action: `/games/${id}`,
+        heading: "Edit Game",
+        buttonText: "Update Game",
+        backUrl: `/games/${id}`,
+        requirePassword: true,
+      });
+    } catch (err) {
+      return next(err);
+    }
   }
 
   const {

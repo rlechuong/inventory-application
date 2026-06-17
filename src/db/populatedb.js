@@ -472,4 +472,7 @@ const main = async () => {
   console.log("Done.");
 };
 
-main();
+main().catch((error) => {
+  console.error("Seeding failed: ", error);
+  process.exit(1);
+});

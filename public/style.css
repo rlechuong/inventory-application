@@ -443,7 +443,7 @@ legend {
 }
 
 .tag-platform {
-  background-color: rgba(3, 218, 198, 0.5);
+  background-color: rgba(3, 218, 198, 0.15);
   color: var(--accent-secondary);
   border: 1px solid rgba(3, 218, 198, 0.3);
 }

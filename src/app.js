@@ -26,7 +26,7 @@ app.use("/platforms", platformsRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(err.statusCode || 500).send(err.message);
+  res.status(err.statusCode || 500).send(err.statusCode ? err.message : "Something went wrong.");
 });
 
 app.listen(PORT, () => {

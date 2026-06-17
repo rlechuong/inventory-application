@@ -116,7 +116,7 @@ const updatePlatform = async (req, res, next) => {
 
   if (req.body.adminPassword !== process.env.ADMIN_PASSWORD) {
     return res.status(403).render("platformForm", {
-      errors: [{ msg: "Incorrect admin password" }],
+      errors: [{ msg: "Incorrect admin password." }],
       value: req.body.name,
       action: `/platforms/${id}`,
       heading: "Edit Platform",
